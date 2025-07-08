@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lightly - Solar Credits Calculator</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f4f8;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 40px 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      color: #2c7a7b;
+      margin-bottom: 30px;
+      font-size: 1.6em;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95em;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 1em;
+      transition: border 0.3s;
+    }
+    input:focus {
+      border-color: #2c7a7b;
+      outline: none;
+    }
+    button {
+      margin-top: 25px;
+      background: #2c7a7b;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+    }
+    button:hover {
+      background: #285e61;
+    }
+    .output {
+      margin-top: 25px;
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #2c7a7b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lightly - Solar Credits Calculator</h1>
+    <div>
+      <label for="capacity">Capacity Reserved (W):</label>
+      <input type="number" id="capacity" placeholder="e.g. 5766">
+
+      <label for="produced">Energy Produced (kWh):</label>
+      <input type="number" id="produced" placeholder="e.g. 406.246">
+
+      <label for="rate">Credit Rate per kWh (₹):</label>
+      <input type="number" id="rate" placeholder="e.g. 6.42">
+
+      <button onclick="calculateCredits()">Calculate Credits</button>
+
+      <div class="output" id="earned"></div>
+      <div class="output" id="estimated"></div>
+    </div>
+  </div>
+
+  <script>
+    function calculateCredits() {
+      const capacity = parseFloat(document.getElementById('capacity').value);
+      const produced = parseFloat(document.getElementById('produced').value);
+      const rate = parseFloat(document.getElementById('rate').value);
+
+      if (isNaN(capacity) || isNaN(produced) || isNaN(rate)) {
+        alert("Please fill all fields correctly.");
+        return;
+      }
+
+      const creditsEarned = produced * rate;
+
+      const projectedProduction = produced * 2;
+      const creditsEstimatedMin = projectedProduction * rate * 0.9;
+      const creditsEstimatedMax = projectedProduction * rate * 1.2;
+
+      document.getElementById('earned').innerHTML = `Credits Earned: ₹${creditsEarned.toFixed(2)}`;
+      document.getElementById('estimated').innerHTML = `Credits Estimated: ₹${creditsEstimatedMin.toFixed(0)} - ₹${creditsEstimatedMax.toFixed(0)}`;
+    }
+  </script>
+</body>
+</html>
